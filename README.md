@@ -50,7 +50,7 @@ https://github.com/user-attachments/assets/07547a77-ea60-4c23-9700-20d3f441fa6e
 #### Failed init
 <img src="Demo/init_error.png" alt="Alt Text" width="300">
 
-#### Success case demo
+#### Failed preview
 <img src="Demo/preview_error.png" alt="Alt Text" width="300">
 
 ## Problems found
