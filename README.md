@@ -45,13 +45,14 @@ Public API:
 4. `func createDataSubject() -> any Subject<(Int64, Content), Error>` - creates subject that fetches activations and updates ui accordingly
 ## Demonstration
 #### Success case demo
-![](Demo/Demonstration.mov)
+https://github.com/user-attachments/assets/07547a77-ea60-4c23-9700-20d3f441fa6e
 
 #### Failed init
-![](Demo/init_error.png)
+<img src="Demo/init_error.png" alt="Alt Text" width="300">
 
 #### Success case demo
-![](Demo/preview_error.png)
+<img src="Demo/preview_error.png" alt="Alt Text" width="300">
+
 ## Problems found
 1. SDK package is missing Packages.swift file which would allow the SDK to be imported via Swift Package Manager.
 2. Cocoapods is deprecated, so instead of using cocoa pods I decided to import package directly via framework attachment to xcode project.
