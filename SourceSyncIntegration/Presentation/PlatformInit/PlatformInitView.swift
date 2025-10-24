@@ -19,7 +19,7 @@ struct PlatformInitView: View {
                 if (viewModel.errorText == nil) {
                     InitializationSuccessView()
                 } else {
-                    InitializationFailedView(errorText: viewModel.errorText!)
+                    InitializationFailedView(errorText: viewModel.errorText ?? "")
                 }
             }
         }

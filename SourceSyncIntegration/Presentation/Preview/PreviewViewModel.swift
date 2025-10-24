@@ -36,8 +36,8 @@ class PreviewViewModel: ObservableObject {
     }
     
     func submitVideoData() {
-        DispatchQueue.main.async {
-            Task { await self.initializeContent() }
+        Task { @MainActor in
+            await self.initializeContent()
         }
     }
     
@@ -74,7 +74,11 @@ class PreviewViewModel: ObservableObject {
         switch result {
         case .success(let content):
             self.content = content
-            player.replaceCurrentItem(with: AVPlayerItem(url: URL(string: videoUrl)!))
+            guard let unwrappedUrl = URL(string: videoUrl) else {
+                self.error = "Invalid Media URL"
+                return
+            }
+            player.replaceCurrentItem(with: AVPlayerItem(url: unwrappedUrl))
             Logger.shared.logEvent(MediaEvents.playbackMediaReplaced(to: (sourceSyncMediaUrl, videoUrl)))
             progressSubject.send((Int64(0), content))
             self.error = nil
@@ -88,7 +92,7 @@ class PreviewViewModel: ObservableObject {
         let subject = PassthroughSubject<(Int64, Content), Error>()
         subject
             .asyncMap { currentTime, content in
-                return SourceSyncResult.failure(SourceSyncError.unknown("Unknown activation error")) as SourceSyncResult<[Activation]>
+                await SourceSyncSDKInteractor.shared.fetchActivations(content: content, currentTimeMs: currentTime, timeWindowMs: 5000)
             }
             .map { result in
                 result.map { activations in

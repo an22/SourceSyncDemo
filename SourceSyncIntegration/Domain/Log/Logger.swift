@@ -25,9 +25,7 @@ final class Logger: LoggerImpl {
     
     private init() {}
     
-    /**
-     Replaces current logger implementation class
-     */
+    //Replaces current logger implementation class
     func setActiveLogger(_ impl: LoggerImpl) {
         self.impl = impl
     }
