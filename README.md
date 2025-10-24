@@ -43,6 +43,27 @@ Public API:
 2. `func observeProgress()` - start to observe video player progress to be able to check for activations in real time
 3. `func stopObservingProgress()` - unsubscribe from player progress updates
 4. `func createDataSubject() -> any Subject<(Int64, Content), Error>` - creates subject that fetches activations and updates ui accordingly
+
+#### Logging
+
+Logger implemented using basic interface LoggerImpl, that can be changed at any time to different analytic providers. 
+To be able to use Firebase for example you would need to create FirebaseLoggerImpl and provide this implementation to `Logger.setActiveLogger` and all logging would be automatically redirected to Firebase. 
+SystemLogger created For demonstration purposes and provides logging to standard system output.
+Every method within `PreviewViewModel` and `SourceSyncSDKInteractor` emit logs through logging system.
+
+```swift
+struct LogEvent {
+    let eventName: String
+    let message: String
+    let date: Date = Date()
+}
+
+protocol LoggerImpl {
+    func logEvent(_ event: LogEvent)
+    func logError(_ error: Error)
+}
+```
+
 ## Demonstration
 #### Success case demo
 https://github.com/user-attachments/assets/07547a77-ea60-4c23-9700-20d3f441fa6e
