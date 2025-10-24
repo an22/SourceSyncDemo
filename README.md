@@ -46,9 +46,9 @@ Public API:
 
 #### Logging
 
-Logger implemented using basic interface LoggerImpl, that can be changed at any time to different analytic providers. 
-To be able to use Firebase for example you would need to create FirebaseLoggerImpl and provide this implementation to `Logger.setActiveLogger` and all logging would be automatically redirected to Firebase. 
-SystemLogger created For demonstration purposes and provides logging to standard system output.
+Logger implemented using basic interface `LoggerImpl`, that can be changed at any time to different analytic providers. 
+To be able to use Firebase for example you would need to create `FirebaseLoggerImpl` and provide this implementation to `Logger.setActiveLogger` and all logging would be automatically redirected to Firebase. 
+`SystemLogger` created For demonstration purposes and provides logging to standard system output.
 Every method within `PreviewViewModel` and `SourceSyncSDKInteractor` emit logs through logging system.
 
 ```swift
