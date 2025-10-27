@@ -13,41 +13,48 @@ struct PreviewView: View {
     @StateObject var viewModel: PreviewViewModel = .init()
     
     var body: some View {
-        VStack {
-            HStack {
-                VStack {
-                    if (viewModel.error != nil) {
-                        Text(viewModel.error ?? "")
-                            .foregroundStyle(.red)
-                            .font(.footnote)
+        VStack(spacing: 0) {
+            VideoPlayer(player: viewModel.player)
+                .frame(height: 250)
+            Form {
+                Section("Enter media data") {
+                    LabeledContent {
+                        TextField("Media URL", text: $viewModel.videoUrl)
+                    } label: {
+                        Text("Media URL")
                     }
-                    Text("Media URL:")
-                        .font(.footnote)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    TextField("Media URL", text: $viewModel.videoUrl)
-                        .textFieldStyle(.roundedBorder)
-                    Text("Media ID")
-                        .font(.footnote)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    TextField("Media ID", text: $viewModel.sourceSyncMediaUrl)
-                        .textFieldStyle(.roundedBorder)
+                    LabeledContent {
+                        TextField("Media ID", text: $viewModel.sourceSyncMediaUrl)
+                    } label: {
+                        Text("Media ID")
+                    }
                 }
                 Button("Submit") {
                     viewModel.submitVideoData()
                 }
-            }.padding()
-            VideoPlayer(player: viewModel.player)
-            List {
-                Text("Last activation refresh time: \(viewModel.lastActivationRefreshTime)")
-                ForEach(viewModel.activationTextList, id: \.self) {
-                    Text("\($0)")
-                        .foregroundStyle(.red)
-                        .font(.footnote)
+                .buttonStyle(ActionButton())
+                .listRowInsets(EdgeInsets())
+                
+                Section("Last activations refresh time") {
+                    Text("\(viewModel.lastActivationRefreshTime)")
                 }
-            }
-            .listStyle(.plain)
-            .listRowBackground(Color.clear)
+                if (viewModel.error != nil) {
+                    Section("Activations error") {
+                        Text(viewModel.error ?? "")
+                            .foregroundStyle(.red)
+                            .font(.footnote)
+                    }
+                }
+                Section("Activations") {
+                    ForEach(viewModel.activationTextList, id: \.self) {
+                        Text("\($0)")
+                            .foregroundStyle(.red)
+                            .font(.footnote)
+                    }
+                }
+            }.listSectionSpacing(.compact)
         }
+        .background(.background.secondary)
         .onAppear {
             viewModel.observeProgress()
         }
@@ -60,4 +67,8 @@ struct PreviewView: View {
         .navigationBarTitle("SourceSync SDK Usage Example")
         .navigationBarTitleDisplayMode(.inline)
     }
+}
+
+#Preview {
+    PreviewView()
 }

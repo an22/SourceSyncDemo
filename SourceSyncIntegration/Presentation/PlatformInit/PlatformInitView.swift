@@ -19,7 +19,7 @@ struct PlatformInitView: View {
                 if (viewModel.errorText == nil) {
                     InitializationSuccessView()
                 } else {
-                    InitializationFailedView(errorText: viewModel.errorText ?? "")
+                    InitializationFailedView(viewModel: viewModel, errorText: viewModel.errorText ?? "")
                 }
             }
         }
@@ -41,6 +41,7 @@ private struct InitializationProgressView: View {
 }
 
 private struct InitializationFailedView: View {
+    @ObservedObject var viewModel: PlatformInitViewModel
     @State var errorText: String
     
     var body: some View {
@@ -50,6 +51,9 @@ private struct InitializationFailedView: View {
         Text(errorText)
             .foregroundStyle(.red)
         Spacer()
+        Button("Retry") {
+            viewModel.retryInit()
+        }.buttonStyle(ActionButton())
     }
 }
 

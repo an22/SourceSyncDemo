@@ -20,14 +20,24 @@ class PlatformInitViewModel: ObservableObject {
     @MainActor
     func startInitializationProcess() async {
         let result = await SourceSyncSDKInteractor.shared.initialize()
-        switch result {
-        case .success:
-            self.isInitialized = true
-        case .failed(let error):
-            self.isInitialized = true
-            self.errorText = error.localizedDescription
-        default:
-            break
+        withAnimation {
+            switch result {
+            case .success:
+                self.isInitialized = true
+                self.errorText = nil
+            case .failed(let error):
+                self.errorText = error.localizedDescription
+                self.isInitialized = true
+            default:
+                break
+            }
+        }
+    }
+    
+    func retryInit() {
+        Task { @MainActor in
+            self.isInitialized = false
+            await startInitializationProcess()
         }
     }
 }
