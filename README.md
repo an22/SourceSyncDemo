@@ -66,7 +66,7 @@ protocol LoggerImpl {
 
 ## Demonstration
 #### Success case demo
-https://github.com/user-attachments/assets/07547a77-ea60-4c23-9700-20d3f441fa6e
+https://github.com/user-attachments/assets/a06da310-0d9e-4248-894c-d672c88d7022
 
 #### Failed init
 <img src="Demo/init_error.png" alt="Alt Text" width="300">
